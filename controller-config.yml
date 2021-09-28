@@ -1,0 +1,66 @@
+variables:
+
+# Workspace settings
+  ml_workspace_connection: Azure-ARM-Dev
+  ml_workspace_name: mnistws
+  ml_workspace_rg: mnist
+
+# Dataset settings
+  dataset_name: mnist-tiny
+  dataset_description: mnist
+  dataset_local_path: code/data/
+  dataset_path_on_datastore: data/
+
+# Training pipeline settings
+
+  # Training AzureML Environment name
+  training_environment_name: mnist-training
+
+  # Training AzureML Environment conda yaml
+  training_environment_conda_yaml: controller/environments/train.yml
+
+  # Name for the training pipeline
+  training_pipeline_name: mnist-training
+
+  # Compute target for pipeline
+  training_pipeline_target: cpu-cluster
+  training_pipeline_target_min_nodes: 0
+  training_pipeline_target_max_nodes: 4
+  # Command to run for training, use azureml:dataset_name:version to reference a dataset
+  # training_command: 'train.py --epochs 5 --data_path data/'
+  training_command: 'train.py --epochs 5 --data_path azureml:mnist-tiny:1'
+  # Name under which the model will be registered
+  model_name: mnist-ci
+
+# Batch pipeline settings
+
+  # Batch AzureML Environment name
+  batch_environment_name: mnist-batch
+
+  # Batch AzureML Environment conda yaml
+  batch_environment_conda_yaml: controller/environments/batch.yml
+
+  # Name for the batch scoring pipeline
+  batch_pipeline_name: mnist-batch-scoring
+
+  # Compute target for pipeline
+  batch_pipeline_target: cpu-cluster
+  batch_pipeline_target_min_nodes: 0
+  batch_pipeline_target_max_nodes: 4
+
+  # Input batch dataset
+  batch_input_dataset_name: mnist-batch-input
+
+  # Output dataset with results
+  batch_output_dataset_name: mnist-batch-output
+  batch_output_path_on_datastore: mnist-batch-scoring-results/{run-id}
+  batch_output_filename: results.txt
+
+  # Model used for batch scoring
+  #model_name: mnist-simple-ci
+
+  # Parallelization settings
+  batch_mini_batch_size: 8
+  batch_error_threshold: 1
+  batch_process_count_per_node: 1
+  batch_node_count: 1
