@@ -10,11 +10,11 @@ pool:
 resources:
   repositories:
     - repository: templates-mlops  # Template Repo
-      name: ai-factory-azure/templates-mlops
+      name: panagiotag/templates-mlops
       endpoint: Github-Service-Endpoint
       type: github
     - repository: project-code  # Code Repo
-      name: ai-factory-azure/project-template-file-batch-code
+      name: panagiotag/project-template-file-batch-code
       endpoint: Github-Service-Endpoint
       type: github
 
